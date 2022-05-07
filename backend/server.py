@@ -6,8 +6,11 @@ import json
 from Model import Model
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 mockup = {
@@ -101,6 +104,7 @@ OBJECT_DEFINITIONS ={'tree': {"CO2":{'range':4,'decay':1,'effect':0.5},"PH":{'ra
 
 
 @app.route("/api/get_world",methods =['GET'])
+@cross_origin()
 def get_world():
     """
     gets current simulated world state,bodyless request
@@ -116,6 +120,7 @@ def get_world():
 
 
 @app.route("/api/delete/",methods =['POST'])
+@cross_origin()
 def delete():
 
     """
@@ -133,6 +138,7 @@ def delete():
     return model.get_current_results()
 
 @app.route("/api/place/",methods =['POST'])
+@cross_origin()
 def place():
     """
     Places new object in model. expects body of form
