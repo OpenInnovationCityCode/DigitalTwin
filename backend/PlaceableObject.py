@@ -13,10 +13,7 @@ class PlaceableObject:
         self.parameters = parameters
 
 
-
-
-
-    def get_influence(self, parameter, sensor):
+    def get_influence_difference(self, parameter, sensor):
         """Returns float with influence on given coordinate, depending on distance and respective parameter."""
         # TODO: Olis function here
 

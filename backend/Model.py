@@ -2,11 +2,7 @@ from backend.Sensor import Sensor
 import Seb
 import random
 
-try:
-    Park, Park_area = Seb.get_Park()
-    area_range = Seb.get_max_square(Park_area)
-except:
-    pass
+
 
 
 class Model:
@@ -19,6 +15,7 @@ class Model:
         self.placed_objects = dict() #placed at the start
         self.new_placed_objects = dict() #added by us
         self.deleted_objects = dict() #deleted placed and new placed
+        self.mapToSend = None
 
     def get_real_sensors(self):
         return self.sensor_list
@@ -41,7 +38,12 @@ class Model:
 
 
     def fake_everything(self,nr):
-        Places=Seb.get_Messgerät(nr,Park, area_range) #returns list of long,lat in the garden
+        try:
+            self.mapToSend, Park_area = Seb.get_Park()
+            area_range = Seb.get_max_square(Park_area)
+        except:
+            pass
+        Places=Seb.get_Messgerät(nr,self.mapToSend, area_range) #returns list of long,lat in the garden
 
         for new_sensor in range(nr):
             self.sensor_list.append(Sensor(Places[new_sensor][0],Places[new_sensor][1],[random.random()]))
