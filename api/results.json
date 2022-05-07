@@ -1,0 +1,58 @@
+{
+  "data": {
+    "measurements": [
+      {
+        "latitude": 51.3356,
+        "longitude": 8.246252,
+        "parameters": {
+          "co2": [
+            {
+              "timestamp": 1651927953843,
+              "value": 0.621
+            },
+            {
+              "timestamp": 1651927958843,
+              "value": 0.621
+            }
+          ],
+          "ph": [
+            {
+              "timestamp": 1651927953843,
+              "value": 0.621
+            },
+            {
+              "timestamp": 1651927958843,
+              "value": 0.621
+            }
+          ]
+        }
+      },
+      {
+        "latitude": 51.3356,
+        "longitude": 8.246252,
+        "parameters": {
+          "co2": [
+            {
+              "timestamp": 1651927953843,
+              "value": 0.621
+            },
+            {
+              "timestamp": 1651927958843,
+              "value": 0.621
+            }
+          ],
+          "ph": [
+            {
+              "timestamp": 1651927953843,
+              "value": 0.621
+            },
+            {
+              "timestamp": 1651927958843,
+              "value": 0.621
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
