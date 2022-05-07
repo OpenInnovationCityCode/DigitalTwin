@@ -83,12 +83,12 @@ class Model:
         Places=[[52.0207102155816, 8.527082210572587],[52.01982376489781,8.527143945722997]]
         print(Park.contains(Point(Places[0][0],Places[0][1])))
 
-        Param_Liste=["co2","ph","humidity","feinstaub","temp"]
+        Param_Liste=["co2","ph","humidity","feinstaub","temp","Lautstärke"]
 
 
         for new_sensor in range(2):
             sens=Sensor(Places[new_sensor][0], Places[new_sensor][1], Param_Liste)
-            sens.update_measurements()
+            sens.initialize_measurements()
             self.sensor_list.append(sens)
 
 

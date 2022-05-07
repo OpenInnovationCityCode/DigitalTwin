@@ -26,6 +26,8 @@ class Sensor:
         for parameter in self.measurements.keys():
             self.measurements[parameter].append({"timestamp":time,
                                                  "value":self.get_actual_measurement(parameter)})
+        return
+
 
     def get_actual_measurement(self, parameter):
         """Get actual measurement for parameter e.g. co2 value"""
@@ -40,9 +42,35 @@ class Sensor:
             return (random.random())
         if parameter=="temp":
             return 15
+        if parameter=="Lautstärke":
+            return 15
         else:
             return random.random()
 
+
+    def initialize_measurements(self):
+        """mqtt request stuff here"""
+        time = next(self.get_timestamp)
+        for parameter in self.measurements.keys():
+            self.measurements[parameter].append({"timestamp": time,
+                                                 "value": self.initialize_actual_measurement(parameter)})
+        return
+
+    def initialize_actual_measurement(self, parameter):
+        """Get actual measurement for parameter e.g. co2 value"""
+        # "co2", "ph", "humidity", "feinstaub", "temp"
+        if parameter == "ph":
+            return (random.random() - 0.5) * 2 + 7
+        if parameter == "humidity":
+            return (random.random())
+        if parameter == "feinstaub":
+            return (random.random())
+        if parameter == "co2":
+            return (random.random())
+        if parameter == "temp":
+            return 15
+        else:
+            return random.random()
 
         #return self.measurements[parameter]+(random.random()-0.5)/4
 
