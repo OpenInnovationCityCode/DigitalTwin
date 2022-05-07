@@ -1,17 +1,25 @@
 import numpy as np
-import backend.Model as Model
 
 class PlaceableObject:
-    def __init__(self, long, lat, parameters):
+    placeable_objects_count = 0
+    def __init__(self, name, long, lat, parameters):
         """Parameters is a dict with a structure { co2: { range : 0, decay : 0, effect : 0} }"""
-        Model.placeable_objects_count += 1
-        self.id = Model.placeable_objects_count
+        self.placeable_objects_count += 1
+        self.id = self.placeable_objects_count
+        self.name = name
         # longitude = x, latitude = y -> positions
         self.long = long
         self.lat = lat
         # holds
         self.parameters = parameters
+        self.deleted = False
 
+    def get_dict_repr(self):
+        return {"id": self.id,
+                "name": self.name,
+                "latitude": self.lat,
+                "longitude": self.long,
+                "deleted": self.deleted}
 
     def get_influence_difference(self, parameter, sensor, negate = False):
         """Returns float with influence on given coordinate, depending on distance and respective parameter."""

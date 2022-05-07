@@ -94,7 +94,7 @@ mockup = {
 }
 
 
-
+global model
 OBJECT_DEFINITIONS ={'tree': {"CO2":{'range':4,'decay':1,'effect':0.5},"PH":{'range':4,'decay':1,'effect':4}},
                      'hedge': {"CO2":{'range':4,'decay':1,'effect':0.2},"PH":{'range':4,'decay':1,'effect':1.5}}}
 
@@ -108,10 +108,11 @@ def get_world():
 
     :return: see api/
     """
-    # TODO return simulated state from model
+
+    global model
 
 
-    return mockup
+    return model.get_current_results()
 
 
 @app.route("/api/delete/",methods =['POST'])
@@ -121,15 +122,15 @@ def delete():
     Deletes object by id. expects body of form {'id':12}
     """
     # get data from request
+    global model
     data = request.get_json()
 
     id = data['id']
 
 
-    # todo: model.delete(id)
+    model.delete_object_from_placed_objects(id)
 
-    # TODO return simulated state from model
-    return mockup
+    return model.get_current_results()
 
 @app.route("/api/place/",methods =['POST'])
 def place():
@@ -138,6 +139,7 @@ def place():
     {'name':'tree','long':49,'lat':31}
     """
 
+    global model
     # get data from request
     data = request.get_json()
 
@@ -153,18 +155,18 @@ def place():
     if not found :
       definition = OBJECT_DEFINITIONS['tree']
 
-    # todo: model.place(data['long'],data['lat'], definition)
+    model.add_placeable_object(data['name'], data['long'],data['lat'], definition)
 
-    # TODO return simulated state from model
-    return mockup
-
+    return model.get_current_results()
 
 
 
-    return mockup
+
 
 if __name__ == '__main__':
-    # TODO: init model!
-    #model=new_model()
+
+    global model
+    model = Model()
 
     app.run(port=5000, debug=True)
+

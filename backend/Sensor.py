@@ -12,18 +12,22 @@ class Sensor:
     # Dict with values, for every available value e.g. C02, there is a list of time value tuples
     # e.g. {co2: [(14:00, 0.2),(14:01, 0.2)], humidity : [(14:00, 0.3),(14:01, 0.2)]}
 
+    def get_dict_repr(self):
+        repr_dict = {"latitude": self.lat, "longitude": self.long,
+                     "parameters": dict()}
+        for param in self.measurements:
+            repr_dict["parameters"][param] = self.measurements[param]
+        return repr_dict
+
     def update_measurements(self):
         """mqtt request stuff here"""
-        for parameter in measurements.keys():
+        for parameter in self.measurements.keys():
             self.measurements[parameter].append((self.get_timestamp(),
                                                  self.get_actual_measurement(parameter)))
-
 
     def get_actual_measurement(self, parameter):
         """Get actual measurement for parameter e.g. co2 value"""
         return self.measurements[parameter]+(random.random()-0.5)/4
-
-        pass
 
     def get_timestamp(self):
 
