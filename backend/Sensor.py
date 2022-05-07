@@ -25,3 +25,4 @@ class Sensor:
         pass
 
     def update_with_fake_measurements(self):
+        pass
