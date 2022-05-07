@@ -42,8 +42,22 @@ class Model:
                            "measurements": []}
         # add placed objects
         for object in self.placed_objects:
-            results["data"]["objects"]["placed"].append(object.get_dict_repr())
-            
+            dict_repr = object.get_dict_repr()
+            if dict_repr["deleted"]:
+                results["data"]["objects"]["deleted"].append(dict_repr)
+            else:
+                results["data"]["objects"]["placed"].append(dict_repr)
+        # add placed objects
+        for object in self.new_placed_objects:
+            dict_repr = object.get_dict_repr()
+            if dict_repr["deleted"]:
+                results["data"]["objects"]["deleted"].append(dict_repr)
+            else:
+                results["data"]["objects"]["new_placed"].append(dict_repr)
+        # add measurements
+        for
+        results["data"]["measurements"]
+
 
 
     def fake_everything(self,nr):
