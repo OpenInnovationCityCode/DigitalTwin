@@ -87,7 +87,7 @@ export default {
         container: 'map', // container ID
         style: 'mapbox://styles/mapbox/streets-v11', // style URL
         center: [8.526771, 52.020077], // starting position
-        zoom: 16 // starting zoom
+        zoom: 3 // starting zoom
       });
 
       // call callback
@@ -186,7 +186,7 @@ export default {
                 coordinates.long,
                 coordinates.lat,
               ],
-              duration: 7500,
+              duration: 3500,
               zoom: 16.5
             })
           }.bind(this)
