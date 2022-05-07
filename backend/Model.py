@@ -36,28 +36,31 @@ class Model:
 
 
     def get_current_results(self):
-        """Format as in api/results.json. Interpolates data with used resolution
+        """Format as in api/results.json.
         Everything ready for view except jsonify. Gives map to stuff"""
         results = dict()
         results["data"] = {"objects": {"placed": [], "new_placed": [], "deleted": []},
                            "measurements": []}
         # add placed objects
-        for object in self.placed_objects:
-            dict_repr = object.get_dict_repr()
+        for pl_obj in self.placed_objects:
+            dict_repr = pl_obj.get_dict_repr()
             if dict_repr["deleted"]:
                 results["data"]["objects"]["deleted"].append(dict_repr)
             else:
                 results["data"]["objects"]["placed"].append(dict_repr)
-        # add placed objects
-        for object in self.new_placed_objects:
-            dict_repr = object.get_dict_repr()
+
+        # add new_placed objects
+        for pl_obj in self.new_placed_objects:
+            dict_repr = pl_obj.get_dict_repr()
             if dict_repr["deleted"]:
                 results["data"]["objects"]["deleted"].append(dict_repr)
             else:
                 results["data"]["objects"]["new_placed"].append(dict_repr)
+
         # add measurements
-        for
-        results["data"]["measurements"]
+        for sensor in self.sensor_list:
+            results["data"]["measurements"].append(sensor.get_dict_repr())
+        return results
 
 
 

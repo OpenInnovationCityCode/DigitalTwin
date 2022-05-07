@@ -160,7 +160,7 @@ def place():
     model.add_placeable_object(data['name'], data['long'],data['lat'], definition)
 
     # TODO return simulated state from model
-    return mockup
+    return model.get_current_results()
 
 
 
