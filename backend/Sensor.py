@@ -7,11 +7,13 @@ class Sensor:
 
 
     # Dict with values, for every available value e.g. C02, there is a list of time value tuples
+    # e.g. {co2: [(14:00, 0.2),(14:01, 0.2)], humidity : [(14:00, 0.3),(14:01, 0.2)]}
 
     def update_measurements(self):
         """mqtt request stuff here"""
         for parameter in measurements.keys():
-            measurements[parameter].append()
+            self.measurements[parameter].append((self.get_timestamp(),
+                                                 self.get_actual_measurement(parameter)))
 
 
     def get_actual_measurement(self, parameter):
