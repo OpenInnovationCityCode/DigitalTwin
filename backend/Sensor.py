@@ -15,7 +15,7 @@ class Sensor:
     def get_dict_repr(self):
         repr_dict = {"latitude": self.lat, "longitude": self.long,
                      "parameters": dict()}
-        for param in self.measurements:
+        for param in self.measurements.keys():
             repr_dict["parameters"][param] = self.measurements[param]
         return repr_dict
 
