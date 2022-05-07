@@ -1,5 +1,32 @@
 {
   "data": {
+    "objects": {
+      "placed": [
+        {
+          "id": 1,
+          "name": "tree",
+          "latitude": 51.3356,
+          "longitude": 8.246252,
+          "deleted": false
+        },
+        {
+          "id": 2,
+          "name": "tree",
+          "latitude": 51.3356,
+          "longitude": 8.246252,
+          "deleted": true
+        },
+        {
+          "id": 3,
+          "name": "tree",
+          "latitude": 51.3356,
+          "longitude": 8.246252,
+          "deleted": false
+        }
+      ],
+      "new_placed": [],
+      "deleted": []
+    },
     "measurements": [
       {
         "latitude": 51.3356,
