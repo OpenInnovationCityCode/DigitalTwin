@@ -42,7 +42,7 @@ class Model:
         results["data"] = {"objects": {"placed": [], "new_placed": [], "deleted": []},
                            "measurements": []}
         # add placed objects
-        for pl_obj in self.placed_objects:
+        for _ , pl_obj in self.placed_objects.items():
             dict_repr = pl_obj.get_dict_repr()
             if dict_repr["deleted"]:
                 results["data"]["objects"]["deleted"].append(dict_repr)
@@ -50,7 +50,7 @@ class Model:
                 results["data"]["objects"]["placed"].append(dict_repr)
 
         # add new_placed objects
-        for pl_obj in self.new_placed_objects:
+        for _, pl_obj in self.new_placed_objects.items():
             dict_repr = pl_obj.get_dict_repr()
             if dict_repr["deleted"]:
                 results["data"]["objects"]["deleted"].append(dict_repr)
