@@ -33,7 +33,11 @@ class Model:
 
     def delete_object_from_placed_objects(self, placeableObjectID):
         """Add specified object to -> unterscheiden -> new placed auch!"""
-
+        if placeableObjectID in self.placed_objects.keys():
+            self.placed_objects[placeableObjectID].deleted = True
+            return
+        if placeableObjectID in self.new_placed_objects.keys():
+            self.placed_objects[placeableObjectID].deleted = True
 
     def get_current_results(self):
         """Format as in api/results.json.
