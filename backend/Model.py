@@ -48,4 +48,4 @@ class Model:
 
 
 tesst = Model()
-tesst.fake_everything(5)
+tesst.fake_everything(6)
