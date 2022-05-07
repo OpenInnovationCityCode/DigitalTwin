@@ -1,12 +1,9 @@
 from Sensor import Sensor
 import Seb
 import random
-
-
-
+from PlaceableObject import PlaceableObject
 
 class Model:
-
     def __init__(self):
         self.placeable_objects_count = 0
         self.sensor_list = []
@@ -23,9 +20,9 @@ class Model:
     def add_sensor(self, sensor):
         self.sensor_list.append[sensor]
 
-    def add_placeable_object(self, placeableObject):
+    def add_placeable_object(self, long, lat, parameters):
         """Adds new placed object"""
-        self.placed_objects
+        self.placed_objects.append(PlaceableObject(long, lat, parameters))
 
     def delete_object_from_placed_objects(self, placeableObjectID):
         """Add specified object to """
