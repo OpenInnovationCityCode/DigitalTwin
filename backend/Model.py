@@ -12,6 +12,7 @@ except:
 class Model:
 
     def __init__(self):
+        self.placeable_objects_count = 0
         self.sensor_list = []
         self.simulation_sensor_list = []
         # Structur of dicts -> {id : PlaceableObject, id : PlaceableObject2, ...}
