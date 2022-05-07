@@ -1,7 +1,7 @@
 import numpy as np
 import backend.Model as Model
-class PlaceableObject:
 
+class PlaceableObject:
     def __init__(self, long, lat, parameters):
         """Parameters is a dict with a structure { co2: { range : 0, decay : 0, effect : 0} }"""
         Model.placeable_objects_count += 1
@@ -13,15 +13,20 @@ class PlaceableObject:
         self.parameters = parameters
 
 
-    def get_influence_difference(self, parameter, sensor):
+    def get_influence_difference(self, parameter, sensor, negate = False):
         """Returns float with influence on given coordinate, depending on distance and respective parameter."""
         # TODO: Olis function here
+        sensor_pos = [sensor.long, sensor.lat]
+        tree_pos = [self.long, self.lat]
+        range = self.parameters[parameter]["range"]
+        effect = self.parameters[parameter]["effect"]
+        decay = self.parameters[parameter]["decay"]
+        dist = np.linalg.norm(np.array(sensor_pos) - np.array(tree_pos))
+        difference = min(effect, ((decay * range / (dist + 0.0000000001)) * effect))
+        if negate:
+            difference = -difference
+        return difference, dist
 
-        def difference(sensor_pos, tree_pos, rang, effect, decay):
-            dist = np.linalg.norm(np.array(sensor_pos) - np.array(tree_pos))
-            return min(effect, ((decay * rang / (dist + 0.0000000001)) * effect)), dist
 
-
-        sensor_pos = []
 
 

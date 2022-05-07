@@ -3,6 +3,7 @@ import logging
 import textwrap
 from pathlib import Path
 import json
+from Model import Model
 
 from flask import Flask, jsonify, request
 
