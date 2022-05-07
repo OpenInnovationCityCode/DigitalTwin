@@ -157,7 +157,7 @@ def place():
     if not found :
       definition = OBJECT_DEFINITIONS['tree']
 
-    model.add_place(data['long'],data['lat'], definition)
+    model.add_placeable_object(data['name'], data['long'],data['lat'], definition)
 
     # TODO return simulated state from model
     return mockup
