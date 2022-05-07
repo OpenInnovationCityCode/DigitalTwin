@@ -1,3 +1,4 @@
+from backend.Sensor import Sensor
 class Model:
 
     def __init__(self):
@@ -26,6 +27,10 @@ class Model:
 
     def get_current_results(self):
         """Format as in api/results.json. Interpolates data with used resolution"""
+
+
+    def fake_everything(self):
+        self.sensor_list.append(Sensor())
 
 
 

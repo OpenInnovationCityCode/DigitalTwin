@@ -7,7 +7,7 @@ class PlaceableObject:
         # holds
         self.parameter_dict = { par : dict() for par in parameters}
         for key in self.influence_on_sensors_parameters_dict.keys():
-
+            
 
 
     def get_influence(self, parameter, sensor):

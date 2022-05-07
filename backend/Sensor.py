@@ -23,3 +23,5 @@ class Sensor:
     def get_timestamp(self):
 
         pass
+
+    def update_with_fake_measurements(self):
