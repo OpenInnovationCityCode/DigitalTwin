@@ -1,5 +1,5 @@
 import numpy as np
-import backend.Model as Model
+import Model as Model
 
 class PlaceableObject:
     def __init__(self, long, lat, parameters):

@@ -94,7 +94,7 @@ mockup = {
 }
 
 
-
+global model
 OBJECT_DEFINITIONS ={'tree': {"CO2":{'range':4,'decay':1,'effect':0.5},"PH":{'range':4,'decay':1,'effect':4}},
                      'hedge': {"CO2":{'range':4,'decay':1,'effect':0.2},"PH":{'range':4,'decay':1,'effect':1.5}}}
 
@@ -108,6 +108,8 @@ def get_world():
 
     :return: see api/
     """
+
+    global model
     # TODO return simulated state from model
 
 
@@ -121,6 +123,7 @@ def delete():
     Deletes object by id. expects body of form {'id':12}
     """
     # get data from request
+    global model
     data = request.get_json()
 
     id = data['id']
@@ -138,6 +141,7 @@ def place():
     {'name':'tree','long':49,'lat':31}
     """
 
+    global model
     # get data from request
     data = request.get_json()
 
@@ -164,7 +168,8 @@ def place():
     return mockup
 
 if __name__ == '__main__':
-    # TODO: init model!
-    #model=new_model()
+
+    global model
+    model = Model()
 
     app.run(port=5000, debug=True)
