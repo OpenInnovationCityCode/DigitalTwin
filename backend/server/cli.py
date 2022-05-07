@@ -93,6 +93,7 @@ mockup = {
 }
 
 
+
 OBJECT_DEFINITIONS ={'tree': {"CO2":{'range':4,'decay':1,'effect':0.5},"PH":{'range':4,'decay':1,'effect':4}},
                      'hedge': {"CO2":{'range':4,'decay':1,'effect':0.2},"PH":{'range':4,'decay':1,'effect':1.5}}}
 
@@ -101,7 +102,7 @@ OBJECT_DEFINITIONS ={'tree': {"CO2":{'range':4,'decay':1,'effect':0.5},"PH":{'ra
 @app.route("/api/get_world",methods =['GET'])
 def get_world():
     """
-    bodyless request, gets current simulated world state.
+    gets current simulated world state,bodyless request
 
 
     :return: see api/
@@ -114,6 +115,10 @@ def get_world():
 
 @app.route("/api/delete/",methods =['POST'])
 def delete():
+
+    """
+    Deletes object by id. expects body of form {'id':12}
+    """
     # get data from request
     data = request.get_json()
 
@@ -127,7 +132,10 @@ def delete():
 
 @app.route("/api/place/",methods =['POST'])
 def place():
-
+    """
+    Places new object in model. expects body of form
+    {'name':'tree','long':49,'lat':31}
+    """
 
     # get data from request
     data = request.get_json()
