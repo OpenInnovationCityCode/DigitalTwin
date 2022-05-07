@@ -7,6 +7,7 @@ class Sensor:
         self.long = long
         self.lat = lat
         self.measurements = {parameter : [] for parameter in measured_parameters}
+        self.get_timestamp=self.get_timestamp()
 
 
     # Dict with values, for every available value e.g. C02, there is a list of time value tuples
@@ -21,17 +22,32 @@ class Sensor:
 
     def update_measurements(self):
         """mqtt request stuff here"""
+        time=next(self.get_timestamp)
         for parameter in self.measurements.keys():
-            self.measurements[parameter].append((self.get_timestamp(),
-                                                 self.get_actual_measurement(parameter)))
+            self.measurements[parameter].append({"timestamp":time,
+                                                 "value":self.get_actual_measurement(parameter)})
 
     def get_actual_measurement(self, parameter):
         """Get actual measurement for parameter e.g. co2 value"""
-        return self.measurements[parameter]+(random.random()-0.5)/4
+        #"co2", "ph", "humidity", "feinstaub", "temp"
+        if parameter=="ph":
+            return (random.random() - 0.5) * 2 + 7
+        if parameter=="humidity":
+            return (random.random())
+        if parameter=="feinstaub":
+            return (random.random())
+        if parameter=="co2":
+            return (random.random())
+        if parameter=="temp":
+            return 15
+        else:
+            return random.random()
+
+
+        #return self.measurements[parameter]+(random.random()-0.5)/4
 
     def get_timestamp(self):
+        for i in range(1000):
+            yield i
 
-        pass
 
-    def update_with_fake_measurements(self):
-        pass
