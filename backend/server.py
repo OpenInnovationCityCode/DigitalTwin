@@ -161,7 +161,6 @@ def place():
 
 
 
-    return mockup
 
 if __name__ == '__main__':
     # TODO: init model!

@@ -25,13 +25,14 @@ class Model:
         self.placed_objects.append(PlaceableObject(long, lat, parameters))
 
     def delete_object_from_placed_objects(self, placeableObjectID):
-        """Add specified object to """
+        """Add specified object to -> unterscheiden -> new placed auch!"""
 
-    def delete_object_from_new_placed_objects(self, placeableObjectID):
+    # def delete_object_from_new_placed_objects(self, placeableObjectID):
         """"""
 
     def get_current_results(self):
-        """Format as in api/results.json. Interpolates data with used resolution"""
+        """Format as in api/results.json. Interpolates data with used resolution
+        Everything ready for view except jsonify. Gives map to stuff"""
 
 
     def fake_everything(self,nr):
