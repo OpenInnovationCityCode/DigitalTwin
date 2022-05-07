@@ -3,8 +3,7 @@ class Model:
     def __init__(self):
         self.sensor_list = []
         self.simulation_sensor_list = []
-        # Structure -> id : PlaceableObject
-
+        # Structur of dicts -> {id : PlaceableObject, id : PlaceableObject2, ...}
         self.placed_objects = dict() #placed at the start
         self.new_placed_objects = dict() #added by us
         self.deleted_objects = dict() #deleted placed and new placed
@@ -22,7 +21,7 @@ class Model:
     def delete_object_from_placed_objects(self, placeableObjectID):
         """Add specified object to """
 
-    def delete_object_from_placed_objects(self, placeableObject):
+    def delete_object_from_placed_objects(self, placeableObjectID):
         """"""
 
     def get_current_results(self):
