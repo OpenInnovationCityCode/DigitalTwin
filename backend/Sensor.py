@@ -22,8 +22,8 @@ class Sensor:
     def update_measurements(self):
         """mqtt request stuff here"""
         for parameter in self.measurements.keys():
-            self.measurements[parameter].append({"timestamp": self.get_timestamp(),
-                                                 "value": self.get_actual_measurement(parameter)})
+            self.measurements[parameter].append((self.get_timestamp(),
+                                                 self.get_actual_measurement(parameter)))
 
     def get_actual_measurement(self, parameter):
         """Get actual measurement for parameter e.g. co2 value"""

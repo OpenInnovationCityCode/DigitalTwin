@@ -110,10 +110,9 @@ def get_world():
     """
 
     global model
-    # TODO return simulated state from model
 
 
-    return mockup
+    return model.get_current_results()
 
 
 @app.route("/api/delete/",methods =['POST'])
@@ -129,10 +128,9 @@ def delete():
     id = data['id']
 
 
-    # todo: model.delete(id)
+    model.delete_object_from_placed_objects(id)
 
-    # TODO return simulated state from model
-    return mockup
+    return model.get_current_results()
 
 @app.route("/api/place/",methods =['POST'])
 def place():
@@ -159,7 +157,6 @@ def place():
 
     model.add_placeable_object(data['name'], data['long'],data['lat'], definition)
 
-    # TODO return simulated state from model
     return model.get_current_results()
 
 
