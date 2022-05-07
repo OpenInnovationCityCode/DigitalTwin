@@ -35,7 +35,7 @@ def get_Park():  # returns the real values of the park outside from the Internet
         area_nodes_list.append((area_nodes[i][0], area_nodes[i][1]))
 
         i += 1
-
+    print(area_nodes_list)
     polygon = Polygon(area_nodes_list)
 
     return polygon, area_nodes
