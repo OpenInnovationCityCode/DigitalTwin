@@ -1,13 +1,16 @@
 import numpy as np
 class PlaceableObject:
-    def __init__(self, id, long, lat, parameters, ranges, decays, effects):
-        self.id = id
+
+    def __init__(self, long, lat, parameters):
+        """Parameters is a dict with a structure { co2: { range : 0, decay : 0, effect : 0} }"""
+        self.id = Model.
         # longitude = x, latitude = y -> positions
         self.long = long
         self.lat = lat
         # holds
-        self.parameter_dict = { par : dict() for par in parameters}
-        for key in self.influence_on_sensors_parameters_dict.keys():
+        self.parameters = parameters
+
+
 
 
 
