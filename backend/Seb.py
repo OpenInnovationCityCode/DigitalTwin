@@ -35,7 +35,7 @@ def get_Park():  # returns the real values of the park outside from the Internet
         area_nodes_list.append((area_nodes[i][0], area_nodes[i][1]))
 
         i += 1
-
+    print(area_nodes_list)
     polygon = Polygon(area_nodes_list)
 
     return polygon, area_nodes
@@ -66,6 +66,7 @@ if __name__ == '__main__':
 
     #print(area_range)
     #print(get_Messgerät(5,Park,area_range))
+
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

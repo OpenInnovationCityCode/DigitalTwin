@@ -1,5 +1,6 @@
 from Sensor import Sensor
-import Seb
+from shapely.geometry.polygon import Polygon
+from shapely.geometry import Point
 import random
 from PlaceableObject import PlaceableObject
 
@@ -11,7 +12,7 @@ class Model:
         self.placed_objects = dict() #placed at the start
         self.new_placed_objects = dict() #added by us
         self.mapToSend = None
-        self.fake_everything(self, 5)
+        self.fake_everything()
 
     def get_real_sensors(self):
         return self.sensor_list
@@ -60,16 +61,27 @@ class Model:
 
 
 
-    def fake_everything(self,nr):
-        end=False
-        while end==False:
-            try:
-                self.mapToSend, Park_area = Seb.get_Park()
-                area_range = Seb.get_max_square(Park_area)
-                end=True
-            except:
-                pass
-        Places=Seb.get_Messgerät(nr,self.mapToSend, area_range) #returns list of long,lat in the garden
+    def fake_everything(self):
+        #end=False                                      #to be added later
+        #while end==False:
+        #    try:
+        #        self.mapToSend, Park_area = Seb.get_Park()
+        #        area_range = Seb.get_max_square(Park_area)
+        #        end=True
+        #    except:
+        #        pass
+        #Places=Seb.get_Messgerät(nr,self.mapToSend, area_range) #returns list of long,lat in the garden
 
-        for new_sensor in range(nr):
+        Park = Polygon([(52.0203613, 8.5270027), (52.0201556, 8.5269901), (52.0198264, 8.5269809), (52.0198275, 8.5268645), (52.0196805, 8.526862), (52.0196753, 8.5270124), (52.019652, 8.5270327), (52.0196275, 8.5270774), (52.0196132, 8.5271464), (52.0196111, 8.527227), (52.0196247, 8.5272853), (52.0196449, 8.5273252), (52.0196714, 8.5273489), (52.0205914, 8.5272813), (52.0206041, 8.5272804), (52.0207697, 8.5273117), (52.0211016, 8.5273649), (52.021134, 8.527373), (52.0211449, 8.5272115), (52.0211369, 8.527186), (52.0207257, 8.5268905), (52.0206219, 8.526816), (52.0203607, 8.5266328), (52.0203613, 8.5270027)])
+        Places=[[52.0207102155816, 8.527082210572587],[52.01982376489781,8.527143945722997]]
+        print(Park.contains(Point(Places[0][0],Places[0][1])))
+
+        for new_sensor in range(2):
             self.sensor_list.append(Sensor(Places[new_sensor][0],Places[new_sensor][1],[random.random(),(random.random()-0.5)*2+7]))
+
+
+if __name__ == '__main__':
+    Model=Model()
+
+
+    pass
