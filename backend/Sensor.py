@@ -1,3 +1,6 @@
+import random
+
+
 class Sensor:
     def __init__(self, lat, long, measured_parameters):
         #longitude = x, latitude = y -> positions
@@ -18,6 +21,8 @@ class Sensor:
 
     def get_actual_measurement(self, parameter):
         """Get actual measurement for parameter e.g. co2 value"""
+        return self.measurements[parameter]+(random.random()-0.5)/4
+
         pass
 
     def get_timestamp(self):
