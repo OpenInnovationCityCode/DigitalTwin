@@ -1,1 +1,3 @@
-# Docs will be here soon(ish)
+# Basic flask server
+
+Start with `python cli.py`
