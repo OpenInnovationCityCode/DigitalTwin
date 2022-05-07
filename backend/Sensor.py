@@ -14,14 +14,16 @@ class Sensor:
 
     def get_dict_repr(self):
         repr_dict = {"latitude": self.lat, "longitude": self.long,
-                     "parameters": []}
-        repr_dict["parameters"] = 
+                     "parameters": dict()}
+        for param in self.measurements:
+            repr_dict["parameters"][param] = self.measurements[param]
+        return repr_dict
 
     def update_measurements(self):
         """mqtt request stuff here"""
         for parameter in self.measurements.keys():
-            self.measurements[parameter].append((self.get_timestamp(),
-                                                 self.get_actual_measurement(parameter)))
+            self.measurements[parameter].append({"timestamp": self.get_timestamp(),
+                                                 "value": self.get_actual_measurement(parameter)})
 
     def get_actual_measurement(self, parameter):
         """Get actual measurement for parameter e.g. co2 value"""
