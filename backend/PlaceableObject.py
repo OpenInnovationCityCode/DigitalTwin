@@ -1,9 +1,11 @@
 import numpy as np
+import backend.Model as Model
 class PlaceableObject:
 
     def __init__(self, long, lat, parameters):
         """Parameters is a dict with a structure { co2: { range : 0, decay : 0, effect : 0} }"""
-        self.id = Model.
+        Model.placeable_objects_count += 1
+        self.id = Model.placeable_objects_count
         # longitude = x, latitude = y -> positions
         self.long = long
         self.lat = lat
