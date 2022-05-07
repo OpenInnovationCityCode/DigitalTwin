@@ -40,6 +40,21 @@ export default {
         [8.527001809401867, 52.020359981512655],
         [8.526634863791713, 52.02036389315646],
       ],
+      trees: [
+          [8.5273, 52.0198],
+          [8.5271, 52.0198],
+          [8.5270, 52.0199],
+          [8.5271, 52.0202],
+          [8.5272, 52.0201],
+          [8.5273, 52.0200],
+          [8.5270, 52.0204],
+          [8.5270, 52.0205],
+          [8.5269, 52.0206],
+          [8.5272, 52.0203],
+          [8.5271, 52.0199],
+          [8.5273, 52.0205],
+          [8.5272, 52.0208]
+      ]
     }
   },
   watch: {
@@ -73,6 +88,9 @@ export default {
 
       // render boxes on map
       this.renderBoxes({boxes: this.data.measurements})
+
+      // render trees on map
+      this.renderTrees({trees: this.trees})
     }.bind(this))
   },
   methods: {
@@ -167,6 +185,52 @@ export default {
     },
 
     /**
+     * render trees
+     */
+    renderTrees({trees}) {
+      this.map.loadImage(
+          '/icons/laubbaum.png',
+          function (error, image) {
+            if (error) throw error;
+
+            // Add the image to the map style.
+            this.map.addImage('tree', image);
+
+            // Add a data source containing one point feature.
+            let points = []
+            trees.forEach((tree) => {
+              points.push({
+                'type': 'Feature',
+                'geometry': {
+                  'type': 'Point',
+                  'coordinates': [tree[0], tree[1]]
+                }
+              })
+            })
+            this.map.addSource('tree', {
+              'type': 'geojson',
+              'data': {
+                'type': 'FeatureCollection',
+                'features':
+                points
+              }
+            });
+
+            // Add a layer to use the image to represent the data.
+            this.map.addLayer({
+              'id': 'tree',
+              'type': 'symbol',
+              'source': 'tree', // reference the data source
+              'layout': {
+                'icon-image': 'tree', // reference the image
+                'icon-size': 0.045
+              }
+            });
+          }.bind(this)
+      );
+    },
+
+    /**
      * init the autocomplete
      */
     initAutoComplete() {
@@ -187,7 +251,7 @@ export default {
                 coordinates.lat,
               ],
               duration: 3500,
-              zoom: 16.5
+              zoom: 17
             })
           }.bind(this)
         },
@@ -319,9 +383,9 @@ export default {
                 ['linear'],
                 ['zoom'],
                 0,
-                size * 10,
+                size * 14,
                 20,
-                size * 10
+                size * 14
               ],
 // Transition from heatmap to circle layer by zoom level
               'heatmap-opacity': [
