@@ -39,7 +39,7 @@ class Model:
 
     def fake_everything(self,nr):
         end=False
-        while end=False:
+        while end==False:
             try:
                 self.mapToSend, Park_area = Seb.get_Park()
                 area_range = Seb.get_max_square(Park_area)
@@ -54,5 +54,5 @@ class Model:
 
 
 tesst = Model()
-tesst.fake_everything(6)
+tesst.fake_everything(5)
 print(tesst.sensor_list)
