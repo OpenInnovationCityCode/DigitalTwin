@@ -1,4 +1,14 @@
 from backend.Sensor import Sensor
+import Seb
+import random
+
+try:
+    Park, Park_area = Seb.get_Park()
+    area_range = Seb.get_max_square(Park_area)
+except:
+    pass
+
+
 class Model:
 
     def __init__(self):
@@ -29,9 +39,13 @@ class Model:
         """Format as in api/results.json. Interpolates data with used resolution"""
 
 
-    def fake_everything(self):
-        self.sensor_list.append(Sensor())
+    def fake_everything(self,nr):
+        Places=Seb.get_Messgerät(nr,Park, area_range) #returns list of long,lat in the garden
+
+        for new_sensor in range(nr):
+            self.sensor_list.append(Sensor(Places[new_sensor][0],Places[new_sensor][1],[random.random()]))
 
 
 
-
+tesst = Model()
+tesst.fake_everything(6)
