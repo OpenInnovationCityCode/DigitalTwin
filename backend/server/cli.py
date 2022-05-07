@@ -10,8 +10,6 @@ app = Flask(__name__)
 
 
 def new_model():
-
-
     return {'test1': 'bla',
             'test2': 'bli',
             'test3': 'blub'}
