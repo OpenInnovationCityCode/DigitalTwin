@@ -1,0 +1,34 @@
+{
+  "data": {
+    "measurements" : [
+      {
+        "latitude": 51.3356,
+        "longitude": 8.246252,
+        "co2" : [
+          {
+            "timestamp": 1651927953843,
+            "value": 0.621
+          },
+          {
+            "timestamp": 1651927958843,
+            "value": 0.621
+          }
+        ]
+      },
+      {
+        "latitude": 51.62456,
+        "longitude": 8.352252,
+        "co2" : [
+          {
+            "timestamp": 1651927953843,
+            "value": 0.311
+          },
+          {
+            "timestamp": 1651927958843,
+            "value": 0.513
+          }
+        ]
+      }
+    ]
+  }
+}
