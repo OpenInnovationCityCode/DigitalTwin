@@ -38,17 +38,21 @@ class Model:
 
 
     def fake_everything(self,nr):
-        try:
-            self.mapToSend, Park_area = Seb.get_Park()
-            area_range = Seb.get_max_square(Park_area)
-        except:
-            pass
+        end=False
+        while end=False:
+            try:
+                self.mapToSend, Park_area = Seb.get_Park()
+                area_range = Seb.get_max_square(Park_area)
+                end=True
+            except:
+                pass
         Places=Seb.get_Messgerät(nr,self.mapToSend, area_range) #returns list of long,lat in the garden
 
         for new_sensor in range(nr):
-            self.sensor_list.append(Sensor(Places[new_sensor][0],Places[new_sensor][1],[random.random()]))
+            self.sensor_list.append(Sensor(Places[new_sensor][0],Places[new_sensor][1],[random.random(),(random.random()-0.5)*2+7]))
 
 
 
 tesst = Model()
 tesst.fake_everything(6)
+print(tesst.sensor_list)
