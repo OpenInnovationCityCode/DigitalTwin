@@ -17,7 +17,8 @@ export default {
   data() {
     return {
       map: undefined,
-
+      data: {},
+      measureStations: [],
       area: [
         [8.526634863791713, 52.02036389315646],
         [8.527185982109273, 52.02113321541481],
@@ -42,51 +43,36 @@ export default {
     }
   },
   watch: {
-    "layer": function() {
+    "layer": function () {
       this.clearMap()
-      if(this.layer === "CO2") {
-        this.renderArea({area: this.area, color: "#ff0000"})
-      }else if(this.layer === "humidity") {
+      if (this.layer === "CO2") {
+        this.renderCircles({circles: this.data.measurements, color: {r: 255, g: 0, b: 0}, size: 25})
+      } else if (this.layer === "humidity") {
         this.renderArea({area: this.area, color: "#256798"})
-      }else if(this.layer === "ph") {
+      } else if (this.layer === "ph") {
         this.renderArea({area: this.area, color: "#59369d"})
-      }else if(this.layer === "volume") {
-        this.renderArea({area: this.area, color: "#e38815"})
-      }else if(this.layer === "dust") {
-        this.renderArea({area: this.area, color: "#5e5e5e"})
-      }else if(this.layer === "temperatur") {
-        this.renderArea({area: this.area, color: "#ff2f00"})
+      } else if (this.layer === "volume") {
+        this.renderCircles({circles: this.data.measurements, color: {r: 227, g: 136, b: 21}, size: 20})
+      } else if (this.layer === "dust") {
+        this.renderCircles({circles: this.data.measurements, color: {r: 94, g: 94, b: 94}, size: 60})
+      } else if (this.layer === "temperatur") {
+        this.renderCircles({circles: this.data.measurements, color: {r: 255, g: 47, b: 21}, size: 40})
       }
       console.log("LAYER CHANGED", this.layer)
     }
   },
-  mounted() {
+  async mounted() {
+    // load data from server
+    const data = await window.fetch("http://localhost:5000/api/get_world")
+    this.data = (await data.json()).data
+
     // init map
     this.initMap(function () {
       // init autocomplete
       this.initAutoComplete()
 
-      // draw heatmap
-      /*
-      this.renderHeatmap({
-        id: 1,
-        feature: {
-          geometry: {"type": "Point", "coordinates": [8.526771, 52.020077]},
-        },
-        size: 2,
-        color: {r: 255, g: 244, b: 0},
-      })
-      this.renderHeatmap({
-        id: 2,
-        feature: {
-          geometry: {"type": "Point", "coordinates": [8.526771, 52.120277]},
-        },
-        size: 1,
-        color: {r: 255, g: 0, b: 0},
-      })
-      */
-
-
+      // render boxes on map
+      this.renderBoxes({boxes: this.data.measurements})
     }.bind(this))
   },
   methods: {
@@ -112,14 +98,72 @@ export default {
      * clears the whole map
      */
     clearMap() {
-      if(this.map.getLayer('area') !== undefined)
+      if (this.map.getLayer('area') !== undefined)
         this.map.removeLayer('area')
 
-      if(this.map.getLayer('area-outline') !== undefined)
+      if (this.map.getLayer('area-outline') !== undefined)
         this.map.removeLayer('area-outline')
 
-      if(this.map.getSource('area') !== undefined)
+      if (this.map.getLayer('layer-heatmap1') !== undefined)
+        this.map.removeLayer('layer-heatmap1')
+
+      if (this.map.getLayer('layer-heatmap2') !== undefined)
+        this.map.removeLayer('layer-heatmap2')
+
+      if (this.map.getSource('area') !== undefined)
         this.map.removeSource('area')
+
+      if (this.map.getSource('layer-heatmap1') !== undefined)
+        this.map.removeSource('layer-heatmap1')
+
+      if (this.map.getSource('layer-heatmap2') !== undefined)
+        this.map.removeSource('layer-heatmap2')
+    },
+
+    /**
+     * render boxes
+     */
+    renderBoxes({boxes}) {
+      this.map.loadImage(
+          '/icons/box.png',
+          function (error, image) {
+            if (error) throw error;
+
+            // Add the image to the map style.
+            this.map.addImage('box', image);
+
+            // Add a data source containing one point feature.
+            let points = []
+            boxes.forEach((box) => {
+              points.push({
+                'type': 'Feature',
+                'geometry': {
+                  'type': 'Point',
+                  'coordinates': [box.longitude, box.latitude]
+                }
+              })
+            })
+            this.map.addSource('point', {
+              'type': 'geojson',
+              'data': {
+                'type': 'FeatureCollection',
+                'features':
+                points
+              }
+            });
+
+            // Add a layer to use the image to represent the data.
+            this.map.addLayer({
+              'id': 'points',
+              'type': 'symbol',
+              'source': 'point', // reference the data source
+              'layout': {
+                'icon-image': 'box', // reference the image
+                'icon-size': 0.025
+              }
+            });
+          }.bind(this)
+      );
     },
 
     /**
@@ -197,13 +241,26 @@ export default {
       });
     },
 
+    renderCircles({circles, color, size}) {
+      circles.forEach((circle, idx) => {
+        this.renderHeatmap({
+          id: idx + 1,
+          feature: {
+            geometry: {"type": "Point", "coordinates": [circle.longitude, circle.latitude]},
+          },
+          size: size,
+          color: color,
+        })
+      })
+    },
+
     /**
      * render a heatmap
      */
     renderHeatmap({id, feature, color, size}) {
       // Add a geojson point source.
 // Heatmap layers also work with a vector tile source.
-      this.map.addSource('earthquakes' + id, {
+      this.map.addSource('layer-heatmap' + id, {
         'type': 'geojson',
         'data': {
           "type": "FeatureCollection",
@@ -216,9 +273,9 @@ export default {
 
       this.map.addLayer(
           {
-            'id': 'earthquakes-heat' + id,
+            'id': 'layer-heatmap' + id,
             'type': 'heatmap',
-            'source': 'earthquakes' + id,
+            'source': 'layer-heatmap' + id,
             'maxzoom': 20,
             'paint': {
 // Increase the heatmap weight based on frequency and property magnitude
