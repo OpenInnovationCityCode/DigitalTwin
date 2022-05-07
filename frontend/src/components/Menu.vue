@@ -11,20 +11,27 @@
       </div>
       <div :class="'layer' + (selected === 'humidity' ? ' active' : '')" @click="select('humidity')">
         <vue-feather type="droplet"></vue-feather>
-        Humidität
+        Bodenfeuchte
       </div>
       <div :class="'layer' + (selected === 'ph' ? ' active' : '')" @click="select('ph')">
         <vue-feather type="activity"></vue-feather>
-        PH-Wert
+        Boden pH
       </div>
       <div :class="'layer' + (selected === 'volume' ? ' active' : '')" @click="select('volume')">
         <vue-feather type="volume-2"></vue-feather>
         Lautstärke
       </div>
+      <div :class="'layer' + (selected === 'dust' ? ' active' : '')" @click="select('dust')">
+        <vue-feather type="cloud-snow"></vue-feather>
+        Feinstaub
+      </div>
+      <div :class="'layer' + (selected === 'temperatur' ? ' active' : '')" @click="select('temperatur')">
+        <vue-feather type="thermometer"></vue-feather>
+        Temperatur
+      </div>
     </div>
     <div class="layer_holder">
       <h2>Objekte</h2>
-
     </div>
   </div>
 </template>
@@ -35,7 +42,7 @@ export default {
   name: 'Menu',
   data() {
     return {
-      selected: "CO2"
+      selected: null
     }
   },
   mounted() {
@@ -43,6 +50,7 @@ export default {
   methods: {
     select(selected) {
       this.selected = selected
+      this.$emit('change-layer', selected)
     }
   }
 }

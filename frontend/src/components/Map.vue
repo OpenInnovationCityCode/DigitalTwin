@@ -3,7 +3,7 @@
     <div id="map"/>
     <div class="search">
       <input type="search" adressomat-autocomplete="name" adressomat-autofill="attributes.street"
-             placeholder="Strasse"/>
+             placeholder="Adresse (z.B. Obernstraße 50, Bielefeld)"/>
     </div>
   </div>
 </template>
@@ -13,9 +13,51 @@ import {AdressOMatInput} from "@/js/AdressOMatInput.js";
 
 export default {
   name: 'Map',
+  props: ["layer"],
   data() {
     return {
-      map: undefined
+      map: undefined,
+
+      area: [
+        [8.526634863791713, 52.02036389315646],
+        [8.527185982109273, 52.02113321541481],
+        [8.527208256393124, 52.02114121113124],
+        [8.527369744950448, 52.02113207316961],
+        [8.52727322305418, 52.02060333089511],
+        [8.52735077318249, 52.01967119039685],
+        [8.527317361756218, 52.01963920647202],
+        [8.5272635322371, 52.01961978764953],
+        [8.52721155890805, 52.019610649377114],
+        [8.527150304627696, 52.019610649377114],
+        [8.527111324631193, 52.01961750308189],
+        [8.527066776063435, 52.01963235277117],
+        [8.527029652257909, 52.01965519843759],
+        [8.527005521783025, 52.019679186374645],
+        [8.526862595129387, 52.019681470939105],
+        [8.526862595129387, 52.01982425600593],
+        [8.526975822737882, 52.019825398284496],
+        [8.527001809401867, 52.020359981512655],
+        [8.526634863791713, 52.02036389315646],
+      ],
+    }
+  },
+  watch: {
+    "layer": function() {
+      this.clearMap()
+      if(this.layer === "CO2") {
+        this.renderArea({area: this.area, color: "#ff0000"})
+      }else if(this.layer === "humidity") {
+        this.renderArea({area: this.area, color: "#256798"})
+      }else if(this.layer === "ph") {
+        this.renderArea({area: this.area, color: "#59369d"})
+      }else if(this.layer === "volume") {
+        this.renderArea({area: this.area, color: "#e38815"})
+      }else if(this.layer === "dust") {
+        this.renderArea({area: this.area, color: "#5e5e5e"})
+      }else if(this.layer === "temperatur") {
+        this.renderArea({area: this.area, color: "#ff2f00"})
+      }
+      console.log("LAYER CHANGED", this.layer)
     }
   },
   mounted() {
@@ -25,6 +67,7 @@ export default {
       this.initAutoComplete()
 
       // draw heatmap
+      /*
       this.renderHeatmap({
         id: 1,
         feature: {
@@ -41,6 +84,9 @@ export default {
         size: 1,
         color: {r: 255, g: 0, b: 0},
       })
+      */
+
+
     }.bind(this))
   },
   methods: {
@@ -60,6 +106,20 @@ export default {
 
       // call callback
       this.map.on('load', callback)
+    },
+
+    /**
+     * clears the whole map
+     */
+    clearMap() {
+      if(this.map.getLayer('area') !== undefined)
+        this.map.removeLayer('area')
+
+      if(this.map.getLayer('area-outline') !== undefined)
+        this.map.removeLayer('area-outline')
+
+      if(this.map.getSource('area') !== undefined)
+        this.map.removeSource('area')
     },
 
     /**
@@ -94,12 +154,56 @@ export default {
     },
 
     /**
+     * renders an area based on polygons
+     * @param area
+     */
+    renderArea({area, color}) {
+      // Add a data source containing GeoJSON data.
+      this.map.addSource('area', {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Polygon',
+// These coordinates outline Maine.
+            'coordinates': [
+              area
+            ]
+          }
+        }
+      });
+
+// Add a new layer to visualize the polygon.
+      this.map.addLayer({
+        'id': 'area',
+        'type': 'fill',
+        'source': 'area', // reference the data source
+        'layout': {},
+        'paint': {
+          'fill-color': color, // blue color fill
+          'fill-opacity': 0.75
+        }
+      });
+// Add a black outline around the polygon.
+      this.map.addLayer({
+        'id': 'area-outline',
+        'type': 'line',
+        'source': 'area',
+        'layout': {},
+        'paint': {
+          'line-color': '#000000',
+          'line-width': 3
+        }
+      });
+    },
+
+    /**
      * render a heatmap
      */
     renderHeatmap({id, feature, color, size}) {
       // Add a geojson point source.
 // Heatmap layers also work with a vector tile source.
-      this.map.addSource('earthquakes'+id, {
+      this.map.addSource('earthquakes' + id, {
         'type': 'geojson',
         'data': {
           "type": "FeatureCollection",
@@ -112,9 +216,9 @@ export default {
 
       this.map.addLayer(
           {
-            'id': 'earthquakes-heat'+id,
+            'id': 'earthquakes-heat' + id,
             'type': 'heatmap',
-            'source': 'earthquakes'+id,
+            'source': 'earthquakes' + id,
             'maxzoom': 20,
             'paint': {
 // Increase the heatmap weight based on frequency and property magnitude

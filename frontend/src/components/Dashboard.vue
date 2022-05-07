@@ -1,7 +1,7 @@
 <template>
   <div class="main">
-    <Menu/>
-    <Map/>
+    <Menu @change-layer="changeLayer"/>
+    <Map :layer="layer"/>
   </div>
 </template>
 
@@ -16,8 +16,18 @@ export default {
     Menu,
     Map,
   },
+  data () {
+    return {
+      layer: undefined,
+    }
+  },
   props: {
     msg: String
+  },
+  methods: {
+    changeLayer(layer) {
+      this.layer = layer
+    }
   }
 }
 </script>
