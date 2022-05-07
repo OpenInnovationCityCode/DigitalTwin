@@ -1,4 +1,4 @@
-from backend.Sensor import Sensor
+from Sensor import Sensor
 import Seb
 import random
 
