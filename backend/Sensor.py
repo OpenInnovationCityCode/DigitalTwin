@@ -23,8 +23,6 @@ class Sensor:
         """Get actual measurement for parameter e.g. co2 value"""
         return self.measurements[parameter]+(random.random()-0.5)/4
 
-        pass
-
     def get_timestamp(self):
 
         pass

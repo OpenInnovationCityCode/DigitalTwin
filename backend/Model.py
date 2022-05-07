@@ -27,7 +27,7 @@ class Model:
     def delete_object_from_placed_objects(self, placeableObjectID):
         """Add specified object to """
 
-    def delete_object_from_placed_objects(self, placeableObjectID):
+    def delete_object_from_new_placed_objects(self, placeableObjectID):
         """"""
 
     def get_current_results(self):
