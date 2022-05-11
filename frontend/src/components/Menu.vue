@@ -31,7 +31,12 @@
       </div>
     </div>
     <div class="layer_holder">
-      <h2>Objekte</h2>
+      <h2>Pflanzen</h2>
+      <div class="drop_holder">
+        <div class="drop"><img src="/icons/laubbaum.png" @mouseup="alert(22)" alt="tree"/></div>
+        <div class="drop" draggable><img src="/icons/tanne.png" alt="tree"/></div>
+        <div class="drop" draggable><img src="/icons/hecke.png" alt="tree"/></div>
+      </div>
     </div>
   </div>
 </template>
@@ -77,6 +82,9 @@ export default {
 .layer_holder {
   margin-top: 5vh;
 }
+.layer_holder:first-of-type {
+  margin-top: 7.5vh;
+}
 
 .layer {
   position: relative;
@@ -106,5 +114,35 @@ export default {
   position: absolute;
   left: 10px;
   top: 12px;
+}
+
+.drop_holder {
+
+}
+
+.drop {
+  position: relative;
+  width: 30px !important;
+  height: 30px !important;
+  display: inline-block;
+  padding: 12px;
+  background: #dfdfdf;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  margin-right: 12px;
+  transition: all .25s;
+  cursor: pointer;
+}
+
+.drop:hover {
+  transform: scale(0.975);
+}
+
+.drop img{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
 }
 </style>

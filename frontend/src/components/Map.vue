@@ -1,5 +1,5 @@
 <template>
-  <div class="map">
+  <div class="map" @drop="dragLeave">
     <div id="map"/>
     <div class="search">
       <input type="search" adressomat-autocomplete="name" adressomat-autofill="attributes.street"
@@ -41,20 +41,21 @@ export default {
         [8.526634863791713, 52.02036389315646],
       ],
       trees: [
-          [8.5273, 52.0198],
-          [8.5271, 52.0198],
-          [8.5270, 52.0199],
-          [8.5271, 52.0202],
-          [8.5272, 52.0201],
-          [8.5273, 52.0200],
-          [8.5270, 52.0204],
-          [8.5270, 52.0205],
-          [8.5269, 52.0206],
-          [8.5272, 52.0203],
-          [8.5271, 52.0199],
-          [8.5273, 52.0205],
-          [8.5272, 52.0208]
-      ]
+        [8.5273, 52.0198],
+        [8.5271, 52.0198],
+        [8.5270, 52.0199],
+        [8.5271, 52.0202],
+        [8.5272, 52.0201],
+        [8.5273, 52.0200],
+        [8.5270, 52.0204],
+        [8.5270, 52.0205],
+        [8.5269, 52.0206],
+        [8.5272, 52.0203],
+        [8.5271, 52.0199],
+        [8.5273, 52.0205],
+        [8.5272, 52.0208]
+      ],
+      lessCO2 : false
     }
   },
   watch: {
@@ -69,7 +70,7 @@ export default {
       } else if (this.layer === "volume") {
         this.renderCircles({circles: this.data.measurements, color: {r: 227, g: 136, b: 21}, size: 20})
       } else if (this.layer === "dust") {
-        this.renderCircles({circles: this.data.measurements, color: {r: 94, g: 94, b: 94}, size: 60})
+        this.renderCircles({circles: this.data.measurements, color: {r: 20, g: 20, b: 20}, size: 50})
       } else if (this.layer === "temperatur") {
         this.renderCircles({circles: this.data.measurements, color: {r: 255, g: 47, b: 21}, size: 40})
       }
@@ -110,6 +111,20 @@ export default {
 
       // call callback
       this.map.on('load', callback)
+
+      this.map.on('click', (e) => {
+        // render new trees
+        this.renderTrees({
+          trees: [
+            [e.lngLat.lng, e.lngLat.lat]
+          ]
+        }, "1")
+
+        // render less co2 in the top
+        this.lessC02 = true
+        this.clearMap()
+        this.renderCircles({circles: this.data.measurements, color: {r: 255, g: 0, b: 0}, size: 25})
+      })
     },
 
     /**
@@ -187,14 +202,14 @@ export default {
     /**
      * render trees
      */
-    renderTrees({trees}) {
+    renderTrees({trees}, postfix = "") {
       this.map.loadImage(
           '/icons/laubbaum.png',
           function (error, image) {
             if (error) throw error;
 
             // Add the image to the map style.
-            this.map.addImage('tree', image);
+            this.map.addImage('tree'+postfix, image);
 
             // Add a data source containing one point feature.
             let points = []
@@ -207,7 +222,7 @@ export default {
                 }
               })
             })
-            this.map.addSource('tree', {
+            this.map.addSource('tree'+postfix, {
               'type': 'geojson',
               'data': {
                 'type': 'FeatureCollection',
@@ -218,9 +233,9 @@ export default {
 
             // Add a layer to use the image to represent the data.
             this.map.addLayer({
-              'id': 'tree',
+              'id': 'tree'+postfix,
               'type': 'symbol',
-              'source': 'tree', // reference the data source
+              'source': 'tree'+postfix, // reference the data source
               'layout': {
                 'icon-image': 'tree', // reference the image
                 'icon-size': 0.045
@@ -312,7 +327,7 @@ export default {
           feature: {
             geometry: {"type": "Point", "coordinates": [circle.longitude, circle.latitude]},
           },
-          size: size,
+          size: (idx === 0 && this.lessC02) ? size * 2 : size,
           color: color,
         })
       })
@@ -371,11 +386,11 @@ export default {
                 ['linear'],
                 ['heatmap-density'],
                 0,
-                `rgba(${color.r},${color.g},${color.b},0)`,
+                `rgba(${color.r},${color.g},${color.b},0.5)`,
                 0.3,
                 `rgba(${color.r},${color.g},${color.b},0.2)`,
                 1,
-                `rgba(${color.r},${color.g},${color.b},0.8)`,
+                `rgba(${color.r},${color.g},${color.b},0)`,
               ],
 // Adjust the heatmap radius by zoom level
               'heatmap-radius': [
@@ -403,6 +418,13 @@ export default {
       );
 
 
+    },
+
+    /**
+     * add drag leave listener
+     */
+    dragLeave() {
+      console.log("HI")
     }
   }
 }
